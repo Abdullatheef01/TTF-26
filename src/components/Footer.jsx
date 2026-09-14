@@ -6,7 +6,7 @@ const Footer = () => {
         <hr className='lineHor' />
         <div className="footerContent">
            
-            <p className='text-center text-[12px] p-3 text-[#767373] bg-[#010101] border-t-0.5'>© 2026 Titan Techfest · SJCET Thanjavur. All rights reserved.</p>
+            <p className='text-center text-[12px] p-3 text-[#cdc0c0] bg-[#0d0d0d] border-t-[#ccc]'>© 2026 Titan Techfest · SJCET Thanjavur. All rights reserved.</p>
         </div>
     </div>
     </>
