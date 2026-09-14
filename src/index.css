@@ -1,0 +1,190 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@100..800&family=Arimo:ital,wght@0,400..700;1,400..700&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Orbitron&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-rajdhani: 'Rajdhani', sans-serif;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+html{
+  scroll-behavior: smooth;
+}
+
+/* contact Component */
+
+.contactSection {
+  
+  background: #0d0d0d;
+  padding-top: 80px;
+  padding-bottom: 60px;
+  text-align: center;
+}
+
+/* Register button - shine sweep only, no pulsing glow */
+.registerBtn {
+  margin-top: 150px;
+  position: relative;
+  overflow: hidden;
+  background: #131313;
+  color: white;
+  font-family: Krona one;
+  font-weight: 500;
+  font-size: 20px;
+  padding: 20px 64px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.registerBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+  mix-blend-mode: overlay;
+  transform: skewX(-25deg);
+  animation: registerSweep 3s ease-in-out infinite;
+}
+
+@keyframes registerSweep {
+  0% { left: -60%; }
+  35% { left: 130%; }
+  100% { left: 130%; }
+}
+
+/* Description */
+.contactDesc {
+  color: #565555;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 18px auto 0;
+  max-width: 400px;
+}
+
+/* Straight marquee band */
+.marqueeBand {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 50px;
+  background: #ffffff;
+  height: 70px;
+  position: relative;
+}
+
+.marqueeTrack {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  white-space: nowrap;
+  width: max-content;
+  animation: marqueeScroll 10s linear infinite;
+}
+
+.marqueeItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+.marqueeItem span {
+  font-family: 'Krona One', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: #0d0d0d;
+  letter-spacing: 1px;
+}
+
+.marqueeStar {
+  font-size: 20px !important;
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateY(-50%) translateX(0); }
+  to { transform: translateY(-50%) translateX(-50%); }
+}
+
+/* Info cards grid */
+.contactGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  max-width: 900px;
+  margin: 50px auto 0;
+  padding: 0 20px;
+}
+
+.infoCard {
+  flex: 1;
+  min-width: 280px;
+  background:linear-gradient( #141414,black);
+  border: 1px solid rgba(37, 134, 179, 0.1);
+  border-radius: 16px;
+  padding: 26px;
+  text-align: left;
+}
+
+.infoLabel {
+  color: #888;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.followLabel {
+  margin-top: 26px;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  color: #ddd;
+  font-size: 13px;
+}
+
+.infoIconBox {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 10px;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialRow {
+  display: flex;
+  gap: 12px;
+}
+
+.socialIconBox {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #1e1e1e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.socialIconBox:hover {
+  background: #2a2a2a;
+}
