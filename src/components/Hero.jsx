@@ -23,14 +23,14 @@ const Hero = () => {
         <div className='mb-5 mt-10'>
        < Countdown />
     </div>
-        <p class=" text-base md:text-sm  max-w-8xl font-[Audiowide] font-extralight text-white opacity-40">
+        <p class=" text-base md:text-sm  max-w-8xl font-[Audiowide] font-extralight text-white opacity-40 text-sm ">
       
 ST. JOSEPH'S COLLEGE OF ENGINERRING AND TECHNOLOGY,THANJAVUR
     </p>
-    <p className='text-white font-[Krona_one] md:text-2xl mt-1.5 opacity-60'>
+    <p className='text-white font-[Krona_one] md:text-2xl md:mt-1.5 opacity-60 text-xs mt-3'>
       DEPARTMENT OF CSE <span>PRESENT</span>
     </p>
-    <h1 class="text-white text-4xl md:text-9xl font-bold font-[Krona_one] mt-4">
+    <h1 class="text-white text-[40px] md:text-9xl font-bold font-[Krona_one] mt-4">
      <span className='text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]'>TITAN </span> <span className='"
   font-[Krona_One]
   text-transparent

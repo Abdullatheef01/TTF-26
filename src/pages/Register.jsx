@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import { db } from "../firebase"; // 👈 adjust path if your firebase.js is elsewhere
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import Hero from "../components/Hero.jsx"
+import Footer from "../components/Footer.jsx"
 
 const EVENTS = {
   "Paper Presentation": { type: "team", members: 4, required: 1, category: "Technical" },
@@ -226,7 +228,11 @@ export default function RegisterPage() {
   const nextDisabled = !canProceed();
 
   return (
-    <div className="min-h-screen bg-[#020a18] text-cyan-50 font-rajdhani px-4 py-16 relative overflow-hidden">
+    <>
+    
+    <Hero/>
+    <div className="min-h-screen bg-black text-cyan-50 font-rajdhani px-4 py-16 relative overflow-hidden">
+      
       <style>{FONT_IMPORT}</style>
 
       <div
@@ -248,8 +254,8 @@ export default function RegisterPage() {
         {!submitted && (
           <>
             <div className="text-center mb-12">
-              <h2 className="font-orbitron text-[clamp(1.4rem,4vw,2.2rem)] text-white tracking-[4px]">
-                EVENT <span className="text-cyan-400">REGISTRATION</span>
+              <h2 className="font-[Krona_One] text-[clamp(1.4rem,4vw,2.2rem)] text-white tracking-[4px]">
+                EVENT <span className="text-[#f0f00c]">REGISTRATION</span>
               </h2>
               <p className="text-[14px] text-cyan-100/50 tracking-[2px] mt-2">
                 Fill all steps to complete your registration
@@ -553,5 +559,7 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

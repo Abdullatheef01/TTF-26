@@ -5,14 +5,26 @@ import About from "../components/About.jsx"
 import Contactpage from "../components/Contactpage.jsx"
 import Footer from "../components/Footer.jsx"
 import { Contact } from "lucide-react"
+
 const Landingpage = () => {
   return (
     <>
      <Navbar/>
-    <Hero/>
-    <About/>
-    <Contactpage/>
+    <section id="home">
+      <Hero />
+    </section>
+
+    <section id="about">
+      <About />
+    </section>
+    <section id="contact">
+      <Contactpage/>
+    </section>
+    
     <Footer/>
+
+
+
     </>
   )
 }
