@@ -325,3 +325,22 @@ html{
   height: 850px;
   transform: scale(1.2);
 } */
+
+/* src/index.css file-oda bottom-la pottuko */
+@keyframes moveUp {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes moveDown {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+
+.animate-scroll-up {
+  animation: moveUp 25s linear infinite;
+}
+
+.animate-scroll-down {
+  animation: moveDown 25s linear infinite;
+}

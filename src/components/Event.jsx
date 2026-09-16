@@ -1,183 +1,180 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 
-const IMG_BASE = "https://picsum.photos/seed/"; // swap for your real IMGS[event.image] paths
-
-const EVENTS = [
-  { id: 1, name: "Paper Presentation", animeName: "Assassin Scholars", category: "technical", image: "hammer_titan", teamSize: "1–3 members", rounds: "2 rounds — Abstract review + Presentation", timing: "10 min presentation + 5 min Q&A", rules: ["Topics must be related to emerging tech", "Plagiarism leads to disqualification", "Abstract must be submitted before the event", "Time limit strictly enforced"] },
-  { id: 2, name: "Web Design", animeName: "Digital Espadas", category: "technical", image: "kakashi", teamSize: "1–2 members", rounds: "Single round — 2 hours", timing: "2 hours total", rules: ["Topic will be given on-spot", "Pre-built templates not allowed", "Internet access allowed for reference only", "Responsive design gets bonus points"] },
-  { id: 3, name: "SQL Query", animeName: "Data Slayer", category: "technical", image: "edward_elric", teamSize: "Individual", rounds: "3 rounds — Basic, Intermediate, Advanced", timing: "45 minutes per round", rules: ["No external tools or notes", "Queries must be optimized", "Correct syntax and output mandatory", "Tie-breaker based on speed"] },
-  { id: 4, name: "Tech Quiz", animeName: "Aizen IQ Arena", category: "technical", image: "aizen", teamSize: "2 members", rounds: "3 rounds — MCQ, Rapid Fire, Buzzer", timing: "1 hour total", rules: ["No electronic devices allowed", "Questions cover CS, IT, current tech", "Negative marking in MCQ round", "Judge's decision is final"] },
-  { id: 5, name: "Tech Treasure Hunt", animeName: "One Piece Quest", category: "semi-technical", image: "luffy", teamSize: "3–4 members", rounds: "5 checkpoints across campus", timing: "1.5 hours", rules: ["All team members must stay together", "Clues involve coding puzzles and riddles", "GPS/phone usage not allowed", "First team to finish wins"] },
-  { id: 6, name: "Logo Identification", animeName: "Six Eye Challenge", category: "semi-technical", image: "gojo", teamSize: "Individual", rounds: "3 rounds — Easy, Medium, Hard", timing: "30 minutes total", rules: ["Logos from tech companies, apps, and brands", "Partial logos shown in harder rounds", "No electronic devices allowed", "Spelling must be accurate"] },
-  { id: 7, name: "Free Fire", animeName: "Akatsuki Royale", category: "esports", image: "sungjinwoo", teamSize: "Squad (4 members)", rounds: "3 matches — Points cumulative", timing: "Best of 3 matches", rules: ["Custom room codes shared before match", "Emulators not allowed", "Hacking leads to permanent ban", "Kill points + placement points"] },
-  { id: 8, name: "Chess", animeName: "Lelouch Strategy Arena", category: "esports", image: "lelouch", teamSize: "Individual", rounds: "Knockout format", timing: "10 min per player (Rapid Chess)", rules: ["Standard FIDE rules apply", "Touch-move rule enforced", "No electronic assistance", "Draws resolved by Armageddon"] },
-  { id: 9, name: "Vision Void", animeName: "Sharingan Challenge", category: "non-technical", image: "itachi", teamSize: "Individual", rounds: "Multiple tasks blindfolded", timing: "5 minutes per task", rules: ["Tasks include drawing, typing, and sorting", "No peeking — instant disqualification", "Audience must not assist", "Best accuracy wins"] },
-  { id: 10, name: "Minute to Win It", animeName: "One Minute Hero", category: "non-technical", image: "saitama", teamSize: "Individual", rounds: "5 mini-games, 1 min each", timing: "1 minute per challenge", rules: ["Must complete task within 60 seconds", "No retries on failed tasks", "Points awarded based on completion", "Tie-breaker: bonus sudden death round"] },
+// Sample Event Data (Unga requirements-kku yetha maadiri modify pannikonga)
+const posters = [
+  {
+    id: 1,
+    name: 'Code Sprint',
+    category: 'Technical',
+    imgUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400',
+    description: 'Competitive coding challenge to solve algorithmic problems under tight time constraints.',
+    rules: 'Languages allowed: C++, Java, Python. Individual participation.',
+    time: '10:00 AM - 12:30 PM',
+    venue: 'Lab 3, Main Block'
+  },
+  {
+    id: 2,
+    name: 'Prompt Design',
+    category: 'Semi-Technical',
+    imgUrl: 'https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=400',
+    description: 'Use generative AI models to create complex UI graphics using precise prompt engineering.',
+    rules: 'Internet provided. Max 2 members per team.',
+    time: '01:30 PM - 03:00 PM',
+    venue: 'Seminar Hall B'
+  },
+  {
+    id: 3,
+    name: 'VALORANT Showdown',
+    category: 'E-Sports',
+    imgUrl: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=400',
+    description: '5v5 tactical shooter tournament. Battle out against the best campus teams.',
+    rules: 'Bring your own peripherals (Mouse/Headset). Standard competitive rulebook.',
+    time: '10:30 AM - 04:00 PM',
+    venue: 'E-Sports Arena'
+  },
+  {
+    id: 4,
+    name: 'Web Craft',
+    category: 'Technical',
+    imgUrl: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=400',
+    description: 'Build a fully responsive web page based on the given Figma asset within 2 hours.',
+    rules: 'React or Tailwind allowed. No external UI libraries.',
+    time: '11:00 AM - 01:00 PM',
+    venue: 'Lab 1'
+  },
+  {
+    id: 5,
+    name: 'Tech Quiz',
+    category: 'Semi-Technical',
+    imgUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=400',
+    description: 'Test your knowledge on latest tech trends, computer science fundamentals, and history.',
+    rules: '2 rounds: prelims written, final buzzer round. Teams of 2.',
+    time: '02:00 PM - 03:30 PM',
+    venue: 'Auditorium'
+  }
 ];
 
-const CAT = {
-  technical:        { label: "Technical",       color: "#00e5ff" },
-  "semi-technical": { label: "Semi-Technical",  color: "#ff2e9f" },
-  esports:          { label: "Esports",         color: "#a855f7" },
-  "non-technical":  { label: "Non-Technical",   color: "#ffd400" },
+// Badge Color Mapper (Category-kku thagundha maadhiri colors automatic-a maarum)
+const getBadgeStyle = (category) => {
+  switch (category) {
+    case 'Technical':
+      return 'bg-cyan-500/20 text-cyan-400 border-cyan-500/40';
+    case 'Semi-Technical':
+      return 'bg-amber-500/20 text-amber-400 border-amber-500/40';
+    case 'E-Sports':
+      return 'bg-rose-500/20 text-rose-400 border-rose-500/40';
+    default:
+      return 'bg-zinc-500/20 text-zinc-400 border-zinc-500/40';
+  }
 };
 
-// split events round-robin into N columns
-function makeColumns(n) {
-  const cols = Array.from({ length: n }, () => []);
-  EVENTS.forEach((ev, i) => cols[i % n].push(ev));
-  return cols;
-}
+// Reusable Column Component
+const GridColumn = ({ items, direction = 'up', onCardClick }) => {
+  const animationClass = direction === 'up' ? 'animate-scroll-up' : 'animate-scroll-down';
+  
+  return (
+    <div className={`flex flex-col gap-4 ${animationClass}`}>
+      {[...items, ...items].map((item, index) => (
+        <div
+          key={index}
+          onClick={() => onCardClick(item)}
+          className="relative w-56 h-80 rounded-2xl overflow-hidden border-2 border-zinc-800 bg-zinc-950 group cursor-pointer transition-all duration-300 hover:border-zinc-500 hover:shadow-2xl hover:shadow-cyan-500/20 flex-shrink-0"
+        >
+          {/* Image */}
+          <img
+            src={item.imgUrl}
+            alt={item.name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+          />
 
-const COLUMNS = makeColumns(4); // 4 on desktop; render fewer visually on mobile via CSS
+          {/* Gradient Overlay & Details */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-4 flex flex-col justify-end">
+            <span className={`text-xs px-2 py-0.5 rounded-full border w-max font-semibold backdrop-blur-md mb-1.5 ${getBadgeStyle(item.category)}`}>
+              {item.category}
+            </span>
+            <h3 className="text-white font-bold text-lg leading-tight drop-shadow-md">
+              {item.name}
+            </h3>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
-export default function EventsNetflix() {
-  const [active, setActive] = useState(null);
-  const [closing, setClosing] = useState(false);
-
-  function openModal(ev) {
-    setActive(ev);
-    setClosing(false);
-  }
-  function closeModal() {
-    setClosing(true);
-    setTimeout(() => {
-      setActive(null);
-      setClosing(false);
-    }, 300);
-  }
+export default function SymposiumPosterWall() {
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   return (
-    <section className="py-24 px-4 bg-[#0d0d0d] text-neutral-100 overflow-hidden">
-      <h2 className="font-['Orbitron'] text-3xl md:text-5xl font-bold text-center mb-2">
-        EVENTS
-      </h2>
-      <p className="text-neutral-500 text-center mb-16 text-sm">
-        Click a poster for full details
-      </p>
-
-      <div className="max-w-6xl mx-auto flex flex-col gap-4">
-        {COLUMNS.map((col, ci) => {
-          const goingLeft = ci % 2 === 0; // alternate direction per row
-          const duration = 22 + ci * 4; // slightly different speed per row
-          const doubled = [...col, ...col]; // duplicate for seamless loop
-
-          return (
-            <div key={ci} className="relative overflow-hidden rounded-xl">
-              <div
-                className="flex gap-4 w-max hover:[animation-play-state:paused]"
-                style={{
-                  animation: `${goingLeft ? "scrollLeft" : "scrollRight"} ${duration}s linear infinite`,
-                }}
-              >
-                {doubled.map((ev, i) => {
-                  const cat = CAT[ev.category];
-                  return (
-                    <div
-                      key={ci + "-" + i}
-                      onClick={() => openModal(ev)}
-                      className="relative rounded-xl overflow-hidden w-40 md:w-52 aspect-[3/4] cursor-pointer border-2 shadow-lg group flex-shrink-0"
-                      style={{ borderColor: `${cat.color}55`, boxShadow: `0 0 14px ${cat.color}33` }}
-                    >
-                      <img
-                        src={`${IMG_BASE}${ev.image}/300/400`}
-                        alt={ev.name}
-                        className="w-full h-full object-cover transition duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
-                      <span
-                        className="absolute top-2 right-2 text-[.55rem] font-['Orbitron'] uppercase tracking-wide px-2 py-0.5 rounded-full border backdrop-blur bg-black/60"
-                        style={{ borderColor: cat.color, color: cat.color }}
-                      >
-                        {cat.label}
-                      </span>
-                      <div className="absolute bottom-0 left-0 right-0 p-2.5">
-                        <p className="text-[.85rem] font-semibold leading-tight">{ev.name}</p>
-                        <p className="text-[.65rem] text-neutral-400">{ev.animeName}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              {/* fade edges like Netflix rows, now on left/right */}
-              <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-16 bg-gradient-to-r from-[#0d0d0d] to-transparent" />
-              <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-16 bg-gradient-to-l from-[#0d0d0d] to-transparent" />
-            </div>
-          );
-        })}
+    <div className="w-full h-screen overflow-hidden bg-zinc-950 flex justify-center items-center relative font-sans">
+      
+      {/* Dynamic Tilted Grid Wall */}
+      <div className="flex gap-4 transform -rotate-12 scale-125 hover:[&>*]:[animation-play-state:paused]">
+        <GridColumn items={posters} direction="up" onCardClick={setSelectedEvent} />
+        <GridColumn items={posters} direction="down" onCardClick={setSelectedEvent} />
+        <GridColumn items={posters} direction="up" onCardClick={setSelectedEvent} />
+        <GridColumn items={posters} direction="down" onCardClick={setSelectedEvent} />
+        <GridColumn items={posters} direction="up" onCardClick={setSelectedEvent} />
+        <GridColumn items={posters} direction="down" onCardClick={setSelectedEvent} />
+        <GridColumn items={posters} direction="up" onCardClick={setSelectedEvent} />
+        <GridColumn items={posters} direction="down" onCardClick={setSelectedEvent} />
       </div>
 
-      <style>{`
-        @keyframes scrollLeft {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes scrollRight {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-      `}</style>
+      {/* Pop-up Showcase Modal */}
+      {selectedEvent && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex justify-center items-center p-4">
+          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl max-w-3xl w-full overflow-hidden flex flex-col md:flex-row shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedEvent(null)}
+              className="absolute top-4 right-4 z-10 text-zinc-400 hover:text-white bg-zinc-800/80 hover:bg-zinc-700 rounded-full w-8 h-8 flex items-center justify-center transition-colors"
+            >
+              ✕
+            </button>
 
-      {/* Full-screen modal */}
-      {active && (
-        <div
-          onClick={(e) => e.target === e.currentTarget && closeModal()}
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-2xl p-4 transition-opacity duration-300 ${
-            closing ? "opacity-0" : "opacity-100"
-          }`}
-        >
-          <button
-            onClick={closeModal}
-            className="absolute top-5 right-5 md:top-8 md:right-8 w-11 h-11 rounded-full border border-white/20 bg-white/5 flex items-center justify-center text-xl hover:border-white/50 hover:bg-white/10 transition z-10"
-          >
-            ✕
-          </button>
-
-          <div
-            className={`w-full max-w-4xl max-h-[85vh] bg-neutral-900 border border-neutral-700 rounded-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 shadow-2xl transition-all duration-300 ${
-              closing ? "scale-95 opacity-0" : "scale-100 opacity-100"
-            }`}
-          >
-            <div className="h-56 md:h-full">
+            {/* Left Side: Image */}
+            <div className="md:w-1/2 h-64 md:h-auto relative">
               <img
-                src={`${IMG_BASE}${active.image}/600/800`}
-                alt={active.name}
-                className="w-full h-full object-cover object-top"
+                src={selectedEvent.imgUrl}
+                alt={selectedEvent.name}
+                className="w-full h-full object-cover"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent md:hidden" />
             </div>
-            <div className="p-6 md:p-8 overflow-y-auto max-h-[85vh]">
-              <span
-                className="inline-block text-[.65rem] font-['Orbitron'] tracking-widest uppercase px-3 py-1 rounded-full border mb-4"
-                style={{ borderColor: CAT[active.category].color, color: CAT[active.category].color }}
-              >
-                {CAT[active.category].label}
-              </span>
-              <h3
-                className="font-['Orbitron'] text-sm tracking-wide uppercase mb-1"
-                style={{ color: CAT[active.category].color }}
-              >
-                {active.animeName}
-              </h3>
-              <h2 className="text-2xl md:text-3xl font-bold mb-5">{active.name}</h2>
 
-              <div className="space-y-3 mb-6 text-sm text-neutral-300">
-                <div><span className="text-neutral-500">Team Size — </span>{active.teamSize}</div>
-                <div><span className="text-neutral-500">Rounds — </span>{active.rounds}</div>
-                <div><span className="text-neutral-500">Timing — </span>{active.timing}</div>
+            {/* Right Side: Event Details */}
+            <div className="md:w-1/2 p-6 flex flex-col justify-between space-y-4">
+              <div>
+                <span className={`text-xs px-2.5 py-1 rounded-full border font-semibold inline-block mb-3 ${getBadgeStyle(selectedEvent.category)}`}>
+                  {selectedEvent.category}
+                </span>
+                <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">
+                  {selectedEvent.name}
+                </h2>
+                <p className="text-zinc-300 text-sm leading-relaxed mb-4">
+                  {selectedEvent.description}
+                </p>
+
+                <div className="space-y-2 text-xs text-zinc-400">
+                  <p><strong className="text-zinc-200">Rules:</strong> {selectedEvent.rules}</p>
+                  <p><strong className="text-zinc-200">Time:</strong> {selectedEvent.time}</p>
+                  <p><strong className="text-zinc-200">Venue:</strong> {selectedEvent.venue}</p>
+                </div>
               </div>
 
-              <h4 className="font-['Orbitron'] text-xs tracking-widest uppercase text-neutral-500 mb-2">
-                Rules
-              </h4>
-              <ul className="list-disc list-inside space-y-1.5 text-sm text-neutral-300">
-                {active.rules.map((r, idx) => (
-                  <li key={idx}>{r}</li>
-                ))}
-              </ul>
+              <button 
+                onClick={() => alert(`Registered for ${selectedEvent.name}!`)}
+                className="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl transition-all shadow-lg shadow-cyan-500/20 active:scale-95"
+              >
+                Register Now
+              </button>
             </div>
+
           </div>
         </div>
       )}
-    </section>
+
+    </div>
   );
 }
