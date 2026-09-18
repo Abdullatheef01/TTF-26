@@ -1,11 +1,27 @@
 import Video from '../assets/video.mp4'
 import '../index.css'
 import Countdown from "./Countdown";
+import { useLocation, useNavigate } from "react-router-dom";
+
 const Hero = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isRegisterPage = location.pathname.toLowerCase() === "/register";
+
   return (
     <>
-        <div>
-     
+      {isRegisterPage && (
+        <button
+          onClick={() => navigate("/")}
+          className="fixed top-6 left-6 z-50 flex items-center border border-[#f0f00c]/40 bg-[black]/70 backdrop-blur-sm px-5 py-2.5 tracking-[2px] text-[#c7c741] transition-all duration-300 hover:border-[#f0f00c] hover:shadow-[0_0_15px_rgba(240,240,12,0.4)] rounded-[50px]"
+        >
+          <span className="material-symbols-outlined text-3xl">
+            arrow_back
+          </span>
+        </button>
+      )}
+        
+    <div>
       <video 
         autoPlay 
         muted 
