@@ -13,13 +13,15 @@ const Hero = () => {
       {isRegisterPage && (
         <button
           onClick={() => navigate("/")}
-          className="fixed top-6 left-6 z-50 flex items-center gap-2 border border-[#f0f00c]/40 bg-black/70 backdrop-blur-sm px-5 py-2.5 text-[13px] tracking-[2px] uppercase text-[#f0f00c] font-rajdhani transition-all duration-300 hover:border-[#f0f00c] hover:shadow-[0_0_15px_rgba(240,240,12,0.4)]"
+          className="fixed top-6 left-6 z-50 flex items-center border border-[#f0f00c]/40 bg-[black]/70 backdrop-blur-sm px-5 py-2.5 tracking-[2px] text-[#c7c741] transition-all duration-300 hover:border-[#f0f00c] hover:shadow-[0_0_15px_rgba(240,240,12,0.4)] rounded-[50px]"
         >
-          ← Back to Home
+          <span className="material-symbols-outlined text-3xl">
+            arrow_back
+          </span>
         </button>
       )}
-        <div>
-     
+        
+    <div>
       <video 
         autoPlay 
         muted 
