@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 import "../index.css"
 import { Mail, Phone, MapPin, CalendarDays, Landmark } from 'lucide-react'
 import { FaInstagram, FaYoutube } from 'react-icons/fa'
@@ -8,7 +9,10 @@ const Contact = () => {
     <div id="contact" className="contactSection">
 
       {/* Register button - shine sweep only, no glow */}
-      <button className="registerBtn">Register</button>
+      <Link to="/Register">
+     <li><button className="registerBtn">Register</button></li> 
+      </Link>
+      
 
       {/* 3 line description */}
       <p className="contactDesc">

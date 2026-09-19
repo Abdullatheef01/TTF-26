@@ -11,7 +11,7 @@ import visionVoid from '../assets/visionVoid.jpg';
 import techTreasureHunt from '../assets/techTreasureHunt.jpg';
 
 // Sample Event Data (Unga requirements-kku yetha maadiri modify pannikonga)
-const posters = [
+export const posters = [
   {
     id: 1,
     name: 'PAPER PRESENTATION',
@@ -234,27 +234,163 @@ const GridColumn = ({ items, direction = 'up', onCardClick }) => {
   );
 };
 
-export default function SymposiumPosterWall() {
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const currentIndex = posters.findIndex(
-    (event) => event.id === selectedEvent?.id
-  );
+// Event Details Popup (shared by the poster wall and the timeline)
+export function EventModal({ event, onChange, onClose }) {
+  const currentIndex = posters.findIndex((item) => item.id === event.id);
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
-      setSelectedEvent(posters[currentIndex - 1]);
+      onChange(posters[currentIndex - 1]);
     }
   };
 
   const handleNext = () => {
     if (currentIndex < posters.length - 1) {
-      setSelectedEvent(posters[currentIndex + 1]);
+      onChange(posters[currentIndex + 1]);
     }
   };
 
   return (
-    <div className="w-full h-screen overflow-hidden bg-zinc-950 flex justify-center items-center relative font-sans">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex justify-center items-center p-4" id="event">
 
+      <div className="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-6xl overflow-y-auto max-h-[90vh] md:h-[600px] overflow-hidden flex flex-col md:flex-row shadow-2xl relative animate-in fade-in zoom-in duration-200">
+
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-20 text-zinc-400 hover:text-white bg-zinc-800/80 hover:bg-zinc-700 rounded-full w-8 h-8 flex items-center justify-center transition-colors"
+        >
+          ✕
+        </button>
+
+        {/* Left Side: Image */}
+        <div className="w-full md:w-[35%] h-64 md:h-full bg-zinc-950 flex items-center justify-center relative shrink-0">
+          <img
+            src={event.imgUrl}
+            alt={event.name}
+            className="w-full h-full object-cover "
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent md:hidden" />
+        </div>
+
+        {/* Right Side: Event Details */}
+        <div className="w-full md:w-[65%] p-6 md:p-7 flex flex-col min-w-0">
+
+          {/* Scrollable Details */}
+          <div className="flex-1 overflow-y-auto pr-2">
+
+            {/* Category */}
+            <span
+              className={`text-xs px-2.5 py-1 rounded-full border font-semibold inline-block mb-3 ${getBadgeStyle(
+                event.category
+              )}`}
+            >
+              {event.category}
+            </span>
+
+            {/* Event Name */}
+            <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">
+              {event.name}
+            </h2>
+
+            {/* Anime Name */}
+            <p className="text-zinc-400 text-sm mb-5">
+              {event.animeName}
+            </p>
+
+            {/* Team Size + Rounds */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+
+              <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-3">
+                <p className="text-[10px] tracking-widest text-zinc-500 uppercase">
+                  Team Size
+                </p>
+
+                <p className="text-sm text-white font-medium mt-1">
+                  {event.teamSize}
+                </p>
+              </div>
+
+              <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-3">
+                <p className="text-[10px] tracking-widest text-zinc-500 uppercase">
+                  Rounds
+                </p>
+
+                <p className="text-sm text-white font-medium mt-1">
+                  {event.rounds}
+                </p>
+              </div>
+
+            </div>
+
+            {/* Timing */}
+            <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-3 mb-4">
+              <p className="text-[10px] tracking-widest text-zinc-500 uppercase">
+                Timing
+              </p>
+
+              <p className="text-sm text-white font-medium mt-1">
+                {event.timing}
+              </p>
+            </div>
+
+            {/* Rules */}
+            <div>
+              <p className="text-[10px] tracking-widest text-zinc-500 uppercase mb-3">
+                Rules
+              </p>
+
+              <ul className="space-y-2">
+                {event.rules.map((rule, index) => (
+                  <li
+                    key={index}
+                    className="flex gap-2 text-sm text-zinc-300"
+                  >
+                    <span className="text-pink-500 shrink-0">▸</span>
+                    <span>{rule}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+          </div>
+
+          {/* Previous / Next */}
+          <div className="border-t border-zinc-800 pt-4 mt-4 grid grid-cols-2 gap-3">
+
+            <button
+              onClick={handlePrevious}
+              disabled={currentIndex === 0}
+              className="w-full py-2.5 border border-cyan-500/60 text-cyan-400 hover:bg-cyan-500/10 rounded-lg font-semibold text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              ← PREV
+            </button>
+
+            <button
+              onClick={handleNext}
+              disabled={currentIndex === posters.length - 1}
+              className="w-full py-2.5 border border-pink-500/60 text-pink-400 hover:bg-pink-500/10 rounded-lg font-semibold text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              NEXT →
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function SymposiumPosterWall() {
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  return (
+    <>
+    
+    <div className="w-full h-screen overflow-hidden bg-zinc-950 flex justify-center items-center relative font-sans">
+        
       {/* Dynamic Tilted Grid Wall */}
       <div className="flex gap-4 transform -rotate-12 scale-125 hover:[&>*]:[animation-play-state:paused]">
         <GridColumn items={posters} direction="up" onCardClick={setSelectedEvent} />
@@ -269,137 +405,14 @@ export default function SymposiumPosterWall() {
 
       {/* Pop-up Showcase Modal */}
       {selectedEvent && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex justify-center items-center p-4">
-
-          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-6xl overflow-y-auto max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl relative animate-in fade-in zoom-in duration-200">
-
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedEvent(null)}
-              className="absolute top-4 right-4 z-20 text-zinc-400 hover:text-white bg-zinc-800/80 hover:bg-zinc-700 rounded-full w-8 h-8 flex items-center justify-center transition-colors"
-            >
-              ✕
-            </button>
-
-            {/* Left Side: Image */}
-            <div className="w-full md:w-[35%] h-64 md:h-full bg-zinc-950 flex items-center justify-center relative shrink-0">
-              <img
-                src={selectedEvent.imgUrl}
-                alt={selectedEvent.name}
-                className="w-full h-full object-contain"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent md:hidden" />
-            </div>
-
-            {/* Right Side: Event Details */}
-            <div className="w-full md:w-[65%] p-6 md:p-7 flex flex-col min-w-0">
-
-              {/* Scrollable Details */}
-              <div className="flex-1 overflow-y-auto pr-2">
-
-                {/* Category */}
-                <span
-                  className={`text-xs px-2.5 py-1 rounded-full border font-semibold inline-block mb-3 ${getBadgeStyle(
-                    selectedEvent.category
-                  )}`}
-                >
-                  {selectedEvent.category}
-                </span>
-
-                {/* Event Name */}
-                <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">
-                  {selectedEvent.name}
-                </h2>
-
-                {/* Anime Name */}
-                <p className="text-zinc-400 text-sm mb-5">
-                  {selectedEvent.animeName}
-                </p>
-
-                {/* Team Size + Rounds */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
-
-                  <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-3">
-                    <p className="text-[10px] tracking-widest text-zinc-500 uppercase">
-                      Team Size
-                    </p>
-
-                    <p className="text-sm text-white font-medium mt-1">
-                      {selectedEvent.teamSize}
-                    </p>
-                  </div>
-
-                  <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-3">
-                    <p className="text-[10px] tracking-widest text-zinc-500 uppercase">
-                      Rounds
-                    </p>
-
-                    <p className="text-sm text-white font-medium mt-1">
-                      {selectedEvent.rounds}
-                    </p>
-                  </div>
-
-                </div>
-
-                {/* Timing */}
-                <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-3 mb-4">
-                  <p className="text-[10px] tracking-widest text-zinc-500 uppercase">
-                    Timing
-                  </p>
-
-                  <p className="text-sm text-white font-medium mt-1">
-                    {selectedEvent.timing}
-                  </p>
-                </div>
-
-                {/* Rules */}
-                <div>
-                  <p className="text-[10px] tracking-widest text-zinc-500 uppercase mb-3">
-                    Rules
-                  </p>
-
-                  <ul className="space-y-2">
-                    {selectedEvent.rules.map((rule, index) => (
-                      <li
-                        key={index}
-                        className="flex gap-2 text-sm text-zinc-300"
-                      >
-                        <span className="text-pink-500 shrink-0">▸</span>
-                        <span>{rule}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-              </div>
-
-              {/* Previous / Next */}
-              <div className="border-t border-zinc-800 pt-4 mt-4 grid grid-cols-2 gap-3">
-
-                <button
-                  onClick={handlePrevious}
-                  disabled={currentIndex === 0}
-                  className="w-full py-2.5 border border-cyan-500/60 text-cyan-400 hover:bg-cyan-500/10 rounded-lg font-semibold text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  ← PREV
-                </button>
-
-                <button
-                  onClick={handleNext}
-                  disabled={currentIndex === posters.length - 1}
-                  className="w-full py-2.5 border border-pink-500/60 text-pink-400 hover:bg-pink-500/10 rounded-lg font-semibold text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-                >
-                  NEXT →
-                </button>
-
-              </div>
-
-            </div>
-          </div>
-        </div>
+        <EventModal
+          event={selectedEvent}
+          onChange={setSelectedEvent}
+          onClose={() => setSelectedEvent(null)}
+        />
       )}
 
     </div>
+    </>
   );
 }
