@@ -3,6 +3,7 @@ import Hero from "../components/Hero.jsx"
 import About from "../components/About.jsx"
 import Event from "../components/Event.jsx"
 import Contactpage from "../components/Contactpage.jsx"
+import Timeline from "../components/Eventtimeline.jsx"
 import Footer from "../components/Footer.jsx"
 import { Contact } from "lucide-react"
 
@@ -17,9 +18,13 @@ const Landingpage = () => {
     <section id="about">
       <About />
     </section>
+
     <section id="event">
       <Event/>
     </section>
+
+    <Timeline/>
+    
     <section id="contact">
       <Contactpage/>
     </section>

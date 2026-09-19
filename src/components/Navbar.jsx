@@ -7,7 +7,7 @@ const Navbar = () => {
             <ul className="flex gap-5  bg-black p-3 max-w-[400px] w-[100%]  rounded-4xl  text-center justify-center">
                <a href="#home"><li>Home</li></a> 
                <a href="#about"><li>About</li></a>
-                <li>Event</li>
+                <a href="#event"><li>Event</li></a>
                 <a href="#contact"><li>Contact</li></a>
                 <Link to="/Register">
                 <li><button className="bg-amber-300 px-5 py-1 rounded-3xl text-center text-black font-bold cursor-pointer">Register</button></li>

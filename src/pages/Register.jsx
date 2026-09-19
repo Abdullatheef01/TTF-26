@@ -3,6 +3,7 @@ import { db } from "../firebase"; // 👈 adjust path if your firebase.js is els
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import Hero from "../components/Hero.jsx";
 import Footer from "../components/Footer.jsx";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const EVENTS = {
   "Paper Presentation": { type: "team", members: 4, required: 1, category: "Technical" },
@@ -93,6 +94,7 @@ export default function RegisterPage() {
   const [regId, setRegId] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [captchaToken, setCaptchaToken] = useState(null);
 
   const refs = {
     fullName: useRef(),
@@ -191,6 +193,7 @@ export default function RegisterPage() {
   async function handleSubmit() {
     if (!transactionId.trim()) return setPaymentError("Enter your transaction / UPI ID before submitting.");
     if (!screenshot) return setPaymentError("Upload your payment screenshot before submitting.");
+    if (!captchaToken) return setPaymentError("Please tick \"I'm not a robot\" before submitting.");
     setPaymentError("");
     setSubmitError("");
     setSubmitting(true);
@@ -519,6 +522,14 @@ export default function RegisterPage() {
                     {screenshot && (
                       <img src={screenshot} alt="Payment screenshot preview" className="max-w-full mt-2 border border-[#f0f00c]/30" />
                     )}
+                    <div className="mt-6 flex justify-center">
+                      <ReCAPTCHA
+                        sitekey={import.meta.env.VITE_RECAPTCHA_V2_SITE_KEY}
+                        theme="dark"
+                        onChange={(token) => setCaptchaToken(token)}
+                        onExpired={() => setCaptchaToken(null)}
+                      />
+                    </div>
                     {paymentError && <p className="text-[#ff4d4d] text-[12px] mt-3">{paymentError}</p>}
                     {submitError && <p className="text-[#ff4d4d] text-[12px] mt-3">{submitError}</p>}
                   </div>
