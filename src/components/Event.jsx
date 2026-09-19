@@ -1,4 +1,14 @@
 import React, { useState } from 'react';
+import paperPresentation from '../assets/paperPresentation.jpg';
+import webDesign from '../assets/webDesign.jpg';
+import sqlQuery from '../assets/sqlQuery.jpg';
+import chess from '../assets/chess.jpg';
+import freeFire from '../assets/freeFire.jpg';
+import LogoIdentification from '../assets/LogoIdentification.jpg';
+import minuteToWinIt from '../assets/minuteToWinIt.jpg';
+import techQuiz from '../assets/techQuiz.jpg';
+import visionVoid from '../assets/visionVoid.jpg';
+import techTreasureHunt from '../assets/techTreasureHunt.jpg';
 
 // Sample Event Data (Unga requirements-kku yetha maadiri modify pannikonga)
 const posters = [
@@ -7,7 +17,7 @@ const posters = [
     name: 'PAPER PRESENTATION',
     animeName: 'Assassin Scholars',
     category: 'Technical',
-    imgUrl: '/images/paperPresentation.jpg',
+    imgUrl: paperPresentation,
 
     teamSize: '1–3 members',
     rounds: '2 rounds — Abstract review + Presentation',
@@ -25,7 +35,7 @@ const posters = [
     name: 'Web Design',
     animeName: 'Digital Espadas',
     category: 'Technical',
-    imgUrl: '/images/webDesign.jpg',
+    imgUrl: webDesign,
 
     teamSize: '1–2 members',
     rounds: 'Single round — 2 hours',
@@ -43,7 +53,7 @@ const posters = [
     name: 'SQL Query',
     animeName: 'Data Slayer',
     category: 'Technical',
-    imgUrl: '/images/sqlQuery.jpg',
+    imgUrl: sqlQuery,
     teamSize: 'Individual',
     rounds: '3 rounds — Basic, Intermediate, Advanced',
     timing: '45 minutes per round',
@@ -59,7 +69,7 @@ const posters = [
     name: 'Tech Quiz',
     animeName: 'Aizen IQ Arena',
     category: 'Technical',
-    imgUrl: '/images/techQuiz.jpg',
+    imgUrl: techQuiz,
     teamSize: '2 members',
     rounds: '3 rounds — MCQ, Rapid Fire, Buzzer',
     timing: '1 hour total',
@@ -75,7 +85,7 @@ const posters = [
     name: 'Tech Treasure Hunt',
     animeName: 'One Piece Quest',
     category: 'Semi-Technical',
-    imgUrl: '/images/techTreasureHunt.jpg',
+    imgUrl: techTreasureHunt,
     teamSize: '3–4 members',
     rounds: '5 checkpoints across campus',
     timing: '1.5 hours',
@@ -91,7 +101,7 @@ const posters = [
     name: 'Logo Identification',
     animeName: 'Six Eye Challenge',
     category: 'Semi-Technical',
-    imgUrl: '/images/LogoIdentification.jpg',
+    imgUrl: LogoIdentification,
     teamSize: 'Individual',
     rounds: '3 rounds — Easy, Medium, Hard',
     timing: '30 minutes total',
@@ -107,7 +117,7 @@ const posters = [
     name: 'Free Fire',
     animeName: 'Akatsuki Royale',
     category: 'Esports',
-    imgUrl: '/images/freeFire.jpg',
+    imgUrl: freeFire,
     teamSize: 'Squad (4 members)',
     rounds: '3 matches — Points cumulative',
     timing: 'Best of 3 matches',
@@ -123,7 +133,7 @@ const posters = [
     name: 'Chess',
     animeName: 'Lelouch Strategy Arena',
     category: 'Esports',
-    imgUrl: '/images/chess.jpg',
+    imgUrl: chess,
     teamSize: 'Individual',
     rounds: 'Knockout format',
     timing: '10 min per player (Rapid Chess)',
@@ -140,7 +150,7 @@ const posters = [
     name: 'Vision Void',
     animeName: 'Sharingan Challenge',
     category: 'Non-Technical',
-    imgUrl: '/images/visionVoid.jpg',
+    imgUrl: visionVoid,
     teamSize: 'Individual',
     rounds: 'Multiple tasks blindfolded',
     timing: '5 minutes per task',
@@ -157,7 +167,7 @@ const posters = [
     name: 'Minute to Win It',
     animeName: 'One Minute Hero',
     category: 'Non-Technical',
-    imgUrl: '/images/minuteToWinIt.jpg',
+    imgUrl: minuteToWinIt,
     teamSize: 'Individual',
     rounds: '5 mini-games, 1 min each',
     timing: '1 minute per challenge',
@@ -261,7 +271,7 @@ export default function SymposiumPosterWall() {
       {selectedEvent && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex justify-center items-center p-4">
 
-          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-6xl h-[520px] max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl relative animate-in fade-in zoom-in duration-200">
+          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl w-full max-w-6xl overflow-y-auto max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl relative animate-in fade-in zoom-in duration-200">
 
             {/* Close Button */}
             <button
@@ -272,11 +282,11 @@ export default function SymposiumPosterWall() {
             </button>
 
             {/* Left Side: Image */}
-            <div className="w-full md:w-[35%] h-64 md:h-full relative shrink-0">
+            <div className="w-full md:w-[35%] h-64 md:h-full bg-zinc-950 flex items-center justify-center relative shrink-0">
               <img
                 src={selectedEvent.imgUrl}
                 alt={selectedEvent.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent md:hidden" />
