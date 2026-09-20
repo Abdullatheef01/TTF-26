@@ -192,7 +192,7 @@ const TEST_TIME = '11:15 AM'; // set back to null for real time
 
 ---
 
-## TTF'26 Offical Page
+## TTF'26 Offical Website
 **Click to Register The Fest:** https://ttf-26.vercel.app/
 ## Roadmap
 
