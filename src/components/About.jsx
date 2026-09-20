@@ -21,7 +21,7 @@ export default function AboutSection() {
 
       <div className="max-w-6xl mx-auto flex flex-col items-center font-rajdhani">
         {/* Lanyard, big and centered */}
-        <div className="w-full h-[480px] md:h-[580px] -top-40 relative lanyardContainer md:scale-x-100 md:scale-y-120 ">
+        <div className="w-full h-[480px] md:h-[580px] md:-top-40 -top-30 relative lanyardContainer md:scale-x-100 md:scale-y-120 ">
           <Lanyard />
         </div>
 
